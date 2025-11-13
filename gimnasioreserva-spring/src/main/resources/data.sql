@@ -1,0 +1,2 @@
+-- Script de datos iniciales para Dev 1
+-- Se agregarán 20 registros de prueba por tabla
