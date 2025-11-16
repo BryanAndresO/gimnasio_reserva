@@ -28,14 +28,39 @@ export const Login: React.FC = () => {
     setError('');
 
     try {
-      // Aquí iría la lógica de autenticación con tu API
-      // Por ahora, simulamos una respuesta exitosa
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          correo: formData.email,
+          contrasena: formData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error en el inicio de sesión');
+      }
+
+      const data = await response.json();
+
+      // Guardar el token y datos del usuario en localStorage
+      if (data.data) {
+        localStorage.setItem('auth_token', data.data.accessToken);
+        localStorage.setItem('refresh_token', data.data.refreshToken);
+        localStorage.setItem('user_data', JSON.stringify({
+          correo: data.data.correo,
+          nombre: data.data.nombre,
+          rol: data.data.rol
+        }));
+      }
+
       // Redirigir al dashboard después del inicio de sesión exitoso
       navigate(ROUTES.DASHBOARD);
-    } catch (err) {
-      setError('Credenciales inválidas. Por favor, inténtalo de nuevo.');
+    } catch (err: any) {
+      setError(err.message || 'Credenciales inválidas. Por favor, inténtalo de nuevo.');
       console.error('Error en el inicio de sesión:', err);
     } finally {
       setLoading(false);

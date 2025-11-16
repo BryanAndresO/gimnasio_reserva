@@ -19,6 +19,12 @@ import { HorarioSemanal } from './pages/clases/HorarioSemanal';
 import { MisReservas } from './pages/reservas/MisReservas';
 import { NuevaReserva } from './pages/reservas/NuevaReserva';
 import { HistorialReservas } from './pages/reservas/HistorialReservas';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { GestionUsuarios } from './pages/admin/GestionUsuarios';
+import { GestionClases } from './pages/admin/GestionClases';
+import { GestionEntrenadores } from './pages/admin/GestionEntrenadores';
+import { GestionReservas } from './pages/admin/GestionReservas';
+import { Reportes } from './pages/admin/Reportes';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -113,6 +119,56 @@ export const AppRoutes: React.FC = () => {
         element={
           <MainLayout>
             <HistorialReservas />
+          </MainLayout>
+        }
+      />
+
+      {/* Páginas de Admin */}
+      <Route
+        path={ROUTES.ADMIN_DASHBOARD}
+        element={
+          <MainLayout>
+            <AdminDashboard />
+          </MainLayout>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN_USUARIOS}
+        element={
+          <MainLayout>
+            <GestionUsuarios />
+          </MainLayout>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN_CLASES}
+        element={
+          <MainLayout>
+            <GestionClases />
+          </MainLayout>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN_ENTRENADORES}
+        element={
+          <MainLayout>
+            <GestionEntrenadores />
+          </MainLayout>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN_RESERVAS}
+        element={
+          <MainLayout>
+            <GestionReservas />
+          </MainLayout>
+        }
+      />
+      <Route
+        path={ROUTES.ADMIN_REPORTES}
+        element={
+          <MainLayout>
+            <Reportes />
           </MainLayout>
         }
       />

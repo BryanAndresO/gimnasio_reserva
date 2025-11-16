@@ -36,14 +36,27 @@ export const Register: React.FC = () => {
     setError('');
 
     try {
-      // Aquí iría la lógica de registro con tu API
-      // Por ahora, simulamos una respuesta exitosa
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          correo: formData.email,
+          contrasena: formData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error en el registro');
+      }
       
       // Redirigir al dashboard después del registro exitoso
       navigate(ROUTES.DASHBOARD);
-    } catch (err) {
-      setError('Error al registrar el usuario. Por favor, inténtalo de nuevo.');
+    } catch (err: any) {
+      setError(err.message || 'Error al registrar el usuario. Por favor, inténtalo de nuevo.');
       console.error('Error en el registro:', err);
     } finally {
       setLoading(false);

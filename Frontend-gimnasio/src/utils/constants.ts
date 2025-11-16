@@ -19,6 +19,14 @@ export const ROUTES = {
   RESERVAS: '/reservas',
   NUEVA_RESERVA: '/reservas/nueva',
   HISTORIAL_RESERVAS: '/reservas/historial',
+  // Rutas de Admin
+  ADMIN_DASHBOARD: '/admin',
+  ADMIN_USUARIOS: '/admin/usuarios',
+  ADMIN_CLASES: '/admin/clases',
+  ADMIN_ENTRENADORES: '/admin/entrenadores',
+  ADMIN_RESERVAS: '/admin/reservas',
+  ADMIN_REPORTES: '/admin/reportes',
+  ADMIN_CONFIGURACION: '/admin/configuracion',
 } as const;
 
 export const USER_ROLES = {
