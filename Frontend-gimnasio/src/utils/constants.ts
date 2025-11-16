@@ -13,6 +13,12 @@ export const ROUTES = {
   PROFILE: '/profile',
   SETTINGS: '/settings',
   NOTIFICATIONS: '/notifications',
+  CLASES: '/clases',
+  CLASES_DETALLE: '/clases/:id',
+  HORARIO_SEMANAL: '/clases/horario',
+  RESERVAS: '/reservas',
+  NUEVA_RESERVA: '/reservas/nueva',
+  HISTORIAL_RESERVAS: '/reservas/historial',
 } as const;
 
 export const USER_ROLES = {
