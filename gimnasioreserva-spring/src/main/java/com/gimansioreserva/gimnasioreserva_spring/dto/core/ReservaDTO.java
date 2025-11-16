@@ -14,6 +14,11 @@ public class ReservaDTO {
     private String nombreClase;
     private LocalDateTime horarioClase;
     private Integer duracionMinutos;
+    
+    // Información del entrenador
+    private Long idEntrenador;
+    private String nombreEntrenador;
+    private String especialidadEntrenador;
 
     // Constructores
     public ReservaDTO() {}
@@ -97,6 +102,30 @@ public class ReservaDTO {
 
     public void setDuracionMinutos(Integer duracionMinutos) {
         this.duracionMinutos = duracionMinutos;
+    }
+
+    public Long getIdEntrenador() {
+        return idEntrenador;
+    }
+
+    public void setIdEntrenador(Long idEntrenador) {
+        this.idEntrenador = idEntrenador;
+    }
+
+    public String getNombreEntrenador() {
+        return nombreEntrenador;
+    }
+
+    public void setNombreEntrenador(String nombreEntrenador) {
+        this.nombreEntrenador = nombreEntrenador;
+    }
+
+    public String getEspecialidadEntrenador() {
+        return especialidadEntrenador;
+    }
+
+    public void setEspecialidadEntrenador(String especialidadEntrenador) {
+        this.especialidadEntrenador = especialidadEntrenador;
     }
 }
 

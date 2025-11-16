@@ -1,4 +1,4 @@
-package com.gimansioreserva.gimnasioreserva_spring.config.security;
+package com.gimansioreserva.gimnasioreserva_spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

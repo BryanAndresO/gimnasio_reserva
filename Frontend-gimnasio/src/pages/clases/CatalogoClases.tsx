@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { MainLayout } from '../../components/layout/MainLayout';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { ClaseCard } from '../../components/clases/ClaseCard';
 import { ClaseFiltros } from '../../components/clases/ClaseFiltros';
@@ -36,9 +35,10 @@ export const CatalogoClases: React.FC = () => {
     try {
       setLoading(true);
       const data = await claseService.obtenerClasesDisponibles();
-      setClases(data);
+      setClases(Array.isArray(data) ? data : []);
     } catch (error) {
       mostrarToast('Error al cargar las clases', 'error');
+      setClases([]);
     } finally {
       setLoading(false);
     }
@@ -57,9 +57,10 @@ export const CatalogoClases: React.FC = () => {
         data = await claseService.obtenerClasesDisponibles();
       }
       
-      setClases(data);
+      setClases(Array.isArray(data) ? data : []);
     } catch (error) {
       mostrarToast('Error al filtrar las clases', 'error');
+      setClases([]);
     } finally {
       setLoading(false);
     }
@@ -96,7 +97,7 @@ export const CatalogoClases: React.FC = () => {
   };
 
   return (
-    <MainLayout>
+    <>
       <Breadcrumb items={[{ label: 'Dashboard', path: '/dashboard' }, { label: 'Catálogo de Clases' }]} />
       <h1 className="text-3xl font-bold mb-6">Catálogo de Clases</h1>
 
@@ -138,7 +139,7 @@ export const CatalogoClases: React.FC = () => {
         isVisible={toast.visible}
         onClose={() => setToast({ ...toast, visible: false })}
       />
-    </MainLayout>
+    </>
   );
 };
 

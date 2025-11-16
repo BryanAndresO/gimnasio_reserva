@@ -8,9 +8,10 @@ import { Button } from '../common/Button';
 interface ClaseCardProps {
   clase: ClaseDTO;
   onReservar?: (id: number) => void;
+  disabled?: boolean;
 }
 
-export const ClaseCard: React.FC<ClaseCardProps> = ({ clase, onReservar }) => {
+export const ClaseCard: React.FC<ClaseCardProps> = ({ clase, onReservar, disabled = false }) => {
   const cuposDisponibles = clase.cuposDisponibles || 0;
   const estaDisponible = cuposDisponibles > 0;
 
@@ -61,6 +62,7 @@ export const ClaseCard: React.FC<ClaseCardProps> = ({ clase, onReservar }) => {
               fullWidth
               size="sm"
               onClick={() => onReservar(clase.idClase)}
+              disabled={disabled}
             >
               Reservar
             </Button>

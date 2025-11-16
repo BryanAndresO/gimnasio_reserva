@@ -2,6 +2,14 @@
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
+// Claves para el almacenamiento local
+export const STORAGE_KEYS = {
+  TOKEN: 'gimnasio_token',
+  REFRESH_TOKEN: 'gimnasio_refresh_token',
+  USER: 'gimnasio_user',
+  THEME: 'gimnasio_theme',
+} as const;
+
 export const ROUTES = {
   HOME: '/',
   ABOUT: '/about',
@@ -18,7 +26,11 @@ export const ROUTES = {
   HORARIO_SEMANAL: '/clases/horario',
   RESERVAS: '/reservas',
   NUEVA_RESERVA: '/reservas/nueva',
+  NUEVA_RESERVA_ADMIN: '/reservas/nueva-admin',
   HISTORIAL_RESERVAS: '/reservas/historial',
+  ADMIN_CREAR_USUARIO: '/admin/crear-usuario',
+  ADMIN_GESTIONAR_CLASES: '/admin/clases',
+  ADMIN_GESTIONAR_ENTRENADORES: '/admin/entrenadores',
 } as const;
 
 export const USER_ROLES = {
@@ -32,11 +44,6 @@ export const RESERVA_STATUS = {
   COMPLETADA: 'COMPLETADA',
 } as const;
 
-export const STORAGE_KEYS = {
-  TOKEN: 'auth_token',
-  REFRESH_TOKEN: 'refresh_token',
-  USER: 'user_data',
-} as const;
 
 export const PAGINATION = {
   DEFAULT_PAGE: 1,

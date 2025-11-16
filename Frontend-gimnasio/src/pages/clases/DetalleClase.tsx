@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { ClaseDTO } from '../../services/core/claseService';
 import { claseService } from '../../services/core/claseService';
-import { MainLayout } from '../../components/layout/MainLayout';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
@@ -78,28 +77,24 @@ export const DetalleClase: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <MainLayout>
-        <Loading fullScreen />
-      </MainLayout>
-    );
+    return <Loading fullScreen />;
   }
 
   if (!clase) {
     return (
-      <MainLayout>
+      <>
         <EmptyState
           title="Clase no encontrada"
           message="La clase que buscas no existe"
           actionLabel="Volver al catálogo"
           onAction={() => navigate('/clases')}
         />
-      </MainLayout>
+      </>
     );
   }
 
   return (
-    <MainLayout>
+    <>
       <Breadcrumb
         items={[
           { label: 'Dashboard', path: '/dashboard' },
@@ -181,7 +176,7 @@ export const DetalleClase: React.FC = () => {
         isVisible={toast.visible}
         onClose={() => setToast({ ...toast, visible: false })}
       />
-    </MainLayout>
+    </>
   );
 };
 

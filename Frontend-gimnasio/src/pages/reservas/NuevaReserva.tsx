@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MainLayout } from '../../components/layout/MainLayout';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { ClaseCard } from '../../components/clases/ClaseCard';
 import { Loading } from '../../components/common/Loading';
@@ -75,7 +74,7 @@ export const NuevaReserva: React.FC = () => {
   };
 
   return (
-    <MainLayout>
+    <>
       <Breadcrumb
         items={[
           { label: 'Dashboard', path: '/dashboard' },
@@ -128,7 +127,7 @@ export const NuevaReserva: React.FC = () => {
         isVisible={toast.visible}
         onClose={() => setToast({ ...toast, visible: false })}
       />
-    </MainLayout>
+    </>
   );
 };
 

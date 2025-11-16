@@ -26,6 +26,13 @@ public class ReservaMapper {
             dto.setNombreClase(reserva.getClase().getNombre());
             dto.setHorarioClase(reserva.getClase().getHorario());
             dto.setDuracionMinutos(reserva.getClase().getDuracionMinutos());
+            
+            // Incluir información del entrenador
+            if (reserva.getClase().getEntrenador() != null) {
+                dto.setIdEntrenador(reserva.getClase().getEntrenador().getIdEntrenador());
+                dto.setNombreEntrenador(reserva.getClase().getEntrenador().getNombre());
+                dto.setEspecialidadEntrenador(reserva.getClase().getEntrenador().getEspecialidad());
+            }
         }
 
         return dto;

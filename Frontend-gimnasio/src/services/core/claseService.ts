@@ -1,12 +1,5 @@
-import axios from 'axios';
+import axios from './axiosConfig';
 import { API_BASE_URL } from '../../utils/constants';
-import { getFromStorage } from '../../utils/helpers';
-import { STORAGE_KEYS } from '../../utils/constants';
-
-const getAuthHeaders = () => {
-  const token = getFromStorage<string>(STORAGE_KEYS.TOKEN);
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
 
 export interface ClaseDTO {
   idClase: number;
@@ -24,52 +17,40 @@ export interface ClaseDTO {
 
 export const claseService = {
   obtenerClasesDisponibles: async (): Promise<ClaseDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/clases`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get('/clases');
     return response.data.data || response.data;
   },
 
   obtenerClasesProximas: async (): Promise<ClaseDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/clases/proximas`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get('/clases/proximas');
     return response.data.data || response.data;
   },
 
   obtenerClasesActivas: async (): Promise<ClaseDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/clases/activas`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get('/clases/activas');
     return response.data.data || response.data;
   },
 
   obtenerPorId: async (id: number): Promise<ClaseDTO> => {
-    const response = await axios.get(`${API_BASE_URL}/clases/${id}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get(`/clases/${id}`);
     return response.data.data || response.data;
   },
 
   buscarPorNombre: async (nombre: string): Promise<ClaseDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/clases/buscar`, {
+    const response = await axios.get('/clases/buscar', {
       params: { nombre },
-      headers: getAuthHeaders(),
     });
     return response.data.data || response.data;
   },
 
   obtenerPorEntrenador: async (idEntrenador: number): Promise<ClaseDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/clases/entrenador/${idEntrenador}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get(`/clases/entrenador/${idEntrenador}`);
     return response.data.data || response.data;
   },
 
   obtenerPorRangoFechas: async (inicio: string, fin: string): Promise<ClaseDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/clases/rango-fechas`, {
+    const response = await axios.get('/clases/rango-fechas', {
       params: { inicio, fin },
-      headers: getAuthHeaders(),
     });
     return response.data.data || response.data;
   },

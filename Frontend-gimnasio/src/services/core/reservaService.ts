@@ -1,12 +1,6 @@
-import axios from 'axios';
+import axios from './axiosConfig';
 import { API_BASE_URL } from '../../utils/constants';
-import { getFromStorage } from '../../utils/helpers';
-import { STORAGE_KEYS } from '../../utils/constants';
-
-const getAuthHeaders = () => {
-  const token = getFromStorage<string>(STORAGE_KEYS.TOKEN);
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+import { toast } from 'react-toastify';
 
 export interface ReservaDTO {
   idReserva: number;
@@ -19,52 +13,63 @@ export interface ReservaDTO {
   nombreClase?: string;
   horarioClase?: string;
   duracionMinutos?: number;
+  // Información del entrenador
+  idEntrenador?: number;
+  nombreEntrenador?: string;
+  especialidadEntrenador?: string;
 }
 
 export const reservaService = {
   crearReserva: async (idUsuario: number, idClase: number): Promise<ReservaDTO> => {
-    const response = await axios.post(
-      `${API_BASE_URL}/reservas`,
-      { idUsuario, idClase },
-      { headers: getAuthHeaders() }
-    );
-    return response.data.data || response.data;
+    try {
+      const response = await axios.post(
+        '/reservas',
+        { idUsuario, idClase }
+      );
+      toast.success('Reserva creada exitosamente');
+      return response.data.data || response.data;
+    } catch (error) {
+      console.error('Error al crear reserva:', error);
+      throw error;
+    }
   },
 
   cancelarReserva: async (idReserva: number, idUsuario: number): Promise<ReservaDTO> => {
-    const response = await axios.post(
-      `${API_BASE_URL}/reservas/${idReserva}/cancelar`,
-      { idUsuario },
-      { headers: getAuthHeaders() }
-    );
-    return response.data.data || response.data;
+    try {
+      const response = await axios.post(
+        `/reservas/${idReserva}/cancelar`,
+        { idUsuario }
+      );
+      toast.success('Reserva cancelada exitosamente');
+      return response.data.data || response.data;
+    } catch (error) {
+      console.error('Error al cancelar reserva:', error);
+      throw error;
+    }
   },
 
   obtenerReservasPorUsuario: async (idUsuario: number): Promise<ReservaDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/reservas/usuario/${idUsuario}`, {
-      headers: getAuthHeaders(),
-    });
-    return response.data.data || response.data;
+    try {
+      const response = await axios.get(`/reservas/usuario/${idUsuario}`);
+      return response.data.data || response.data;
+    } catch (error) {
+      console.error('Error al obtener reservas del usuario:', error);
+      throw error;
+    }
   },
 
   obtenerReservasConfirmadas: async (idUsuario: number): Promise<ReservaDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/reservas/usuario/${idUsuario}/confirmadas`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get(`/reservas/usuario/${idUsuario}/confirmadas`);
     return response.data.data || response.data;
   },
 
   obtenerHistorial: async (idUsuario: number): Promise<ReservaDTO[]> => {
-    const response = await axios.get(`${API_BASE_URL}/reservas/usuario/${idUsuario}/historial`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get(`/reservas/usuario/${idUsuario}/historial`);
     return response.data.data || response.data;
   },
 
   obtenerPorId: async (idReserva: number): Promise<ReservaDTO> => {
-    const response = await axios.get(`${API_BASE_URL}/reservas/${idReserva}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await axios.get(`/reservas/${idReserva}`);
     return response.data.data || response.data;
   },
 };

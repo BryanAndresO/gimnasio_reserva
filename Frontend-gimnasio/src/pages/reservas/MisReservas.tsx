@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { MainLayout } from '../../components/layout/MainLayout';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { ReservaCard } from '../../components/reservas/ReservaCard';
 import { ReservaCancelModal } from '../../components/reservas/ReservaCancelModal';
@@ -36,9 +35,10 @@ export const MisReservas: React.FC = () => {
     try {
       setLoading(true);
       const data = await reservaService.obtenerReservasConfirmadas(Number(user?.idUsuario));
-      setReservas(data);
+      setReservas(Array.isArray(data) ? data : []);
     } catch (error) {
       mostrarToast('Error al cargar las reservas', 'error');
+      setReservas([]);
     } finally {
       setLoading(false);
     }
@@ -75,7 +75,7 @@ export const MisReservas: React.FC = () => {
   };
 
   return (
-    <MainLayout>
+    <>
       <Breadcrumb items={[{ label: 'Dashboard', path: '/dashboard' }, { label: 'Mis Reservas' }]} />
       
       <div className="flex justify-between items-center mb-6">
@@ -123,7 +123,7 @@ export const MisReservas: React.FC = () => {
         isVisible={toast.visible}
         onClose={() => setToast({ ...toast, visible: false })}
       />
-    </MainLayout>
+    </>
   );
 };
 

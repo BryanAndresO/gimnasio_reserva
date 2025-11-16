@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MainLayout } from '../../components/layout/MainLayout';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { ClaseCalendario } from '../../components/clases/ClaseCalendario';
 import { Loading } from '../../components/common/Loading';
@@ -21,9 +20,10 @@ export const HorarioSemanal: React.FC = () => {
     try {
       setLoading(true);
       const data = await claseService.obtenerClasesActivas();
-      setClases(data);
+      setClases(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error al cargar las clases:', error);
+      setClases([]);
     } finally {
       setLoading(false);
     }
@@ -34,7 +34,7 @@ export const HorarioSemanal: React.FC = () => {
   };
 
   return (
-    <MainLayout>
+    <>
       <Breadcrumb items={[{ label: 'Dashboard', path: '/dashboard' }, { label: 'Horario Semanal' }]} />
       <h1 className="text-3xl font-bold mb-6">Horario Semanal</h1>
 
@@ -51,7 +51,7 @@ export const HorarioSemanal: React.FC = () => {
           onSeleccionarClase={handleSeleccionarClase}
         />
       )}
-    </MainLayout>
+    </>
   );
 };
 

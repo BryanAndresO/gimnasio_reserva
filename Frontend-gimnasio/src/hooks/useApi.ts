@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios, { type AxiosError } from 'axios';
-import { API_BASE_URL, STORAGE_KEYS } from '../utils/constants';
-import { getFromStorage } from '../utils/helpers';
+import axios, { type AxiosError } from '../services/core/axiosConfig';
+import { API_BASE_URL } from '../utils/constants';
 
 interface ApiState<T> {
   data: T | null;
@@ -35,17 +34,15 @@ export const useApi = <T = any>(
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      const token = getFromStorage<string>(STORAGE_KEYS.TOKEN);
-      
+      // El token se agregará automáticamente por el interceptor de axios
       const response = await axios({
         ...axiosOptions,
-        url: `${API_BASE_URL}${url}`,
+        url: url.startsWith('/') ? url : `/${url}`,
         method: axiosOptions.method || 'GET',
         headers: {
-          'Content-Type': 'application/json',
           ...axiosOptions.headers,
-          ...(token && { Authorization: `Bearer ${token}` }),
         },
+        withCredentials: true, // Asegurar que withCredentials esté configurado
       });
 
       setState({
@@ -93,17 +90,15 @@ export const useApiMutation = <T = any, D = any>() => {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      const token = getFromStorage<string>(STORAGE_KEYS.TOKEN);
-      
+      // El token se agregará automáticamente por el interceptor de axios
       const response = await axios({
         ...options,
-        url: `${API_BASE_URL}${url}`,
+        url: url.startsWith('/') ? url : `/${url}`,
         method: options.method || 'POST',
         headers: {
-          'Content-Type': 'application/json',
           ...options.headers,
-          ...(token && { Authorization: `Bearer ${token}` }),
         },
+        withCredentials: true, // Asegurar que withCredentials esté configurado
       });
 
       setState({

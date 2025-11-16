@@ -10,6 +10,7 @@ interface ReservaConfirmModalProps {
   onConfirm: () => void;
   onCancel: () => void;
   isLoading?: boolean;
+  usuarioNombre?: string;
 }
 
 export const ReservaConfirmModal: React.FC<ReservaConfirmModalProps> = ({
@@ -18,6 +19,7 @@ export const ReservaConfirmModal: React.FC<ReservaConfirmModalProps> = ({
   onConfirm,
   onCancel,
   isLoading = false,
+  usuarioNombre,
 }) => {
   if (!clase) return null;
 
@@ -41,7 +43,9 @@ export const ReservaConfirmModal: React.FC<ReservaConfirmModalProps> = ({
 
         <div className="bg-blue-50 p-3 rounded-lg">
           <p className="text-sm text-blue-800">
-            ¿Estás seguro de que deseas reservar esta clase?
+            {usuarioNombre 
+              ? `¿Estás seguro de que deseas reservar esta clase para ${usuarioNombre}?`
+              : '¿Estás seguro de que deseas reservar esta clase?'}
           </p>
         </div>
 

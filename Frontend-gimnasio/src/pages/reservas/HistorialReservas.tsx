@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { MainLayout } from '../../components/layout/MainLayout';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { ReservaTimeline } from '../../components/reservas/ReservaTimeline';
 import { Loading } from '../../components/common/Loading';
@@ -24,16 +23,17 @@ export const HistorialReservas: React.FC = () => {
     try {
       setLoading(true);
       const data = await reservaService.obtenerHistorial(Number(user?.idUsuario));
-      setReservas(data);
+      setReservas(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error al cargar el historial:', error);
+      setReservas([]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <MainLayout>
+    <>
       <Breadcrumb
         items={[
           { label: 'Dashboard', path: '/dashboard' },
@@ -53,7 +53,7 @@ export const HistorialReservas: React.FC = () => {
       ) : (
         <ReservaTimeline reservas={reservas} />
       )}
-    </MainLayout>
+    </>
   );
 };
 
