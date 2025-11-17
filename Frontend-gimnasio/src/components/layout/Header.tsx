@@ -32,11 +32,13 @@ export const Header: React.FC = () => {
 
   return (
     <header className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-16xl mx-auto px-4 sm:px-4 lg:px-4">
         <div className="flex justify-between items-center h-16">
-          <Link to={ROUTES.HOME} className="text-2xl font-bold text-blue-600">
-            CODEFIT
-          </Link>
+       <Link to={ROUTES.HOME} className="flex items-center text-2xl font-bold text-blue-600 gap-2">
+  <img src="/pesa.png" alt="Gym Icon" className="h-6 w-6" />
+  CODEFIT
+</Link>
+
           <nav className="flex items-center space-x-4">
             {user ? (
               <>

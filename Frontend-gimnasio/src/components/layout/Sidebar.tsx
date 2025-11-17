@@ -37,7 +37,7 @@ export const Sidebar: React.FC = () => {
   const isAdmin = userData?.rol === USER_ROLES.ADMIN || userData?.rol === 'ADMIN';
 
   const userMenuItems = [
-    { path: ROUTES.DASHBOARD, label: 'Dashboard', icon: '📊' },
+    { path: ROUTES.DASHBOARD, label: 'Inicio', icon: '📊' },
     { path: ROUTES.CLASES, label: 'Clases', icon: '🏋️' },
     { path: ROUTES.RESERVAS, label: 'Mis Reservas', icon: '📅' },
     { path: ROUTES.PROFILE, label: 'Perfil', icon: '👤' },
@@ -100,18 +100,7 @@ export const Sidebar: React.FC = () => {
         </ul>
       </nav>
 
-      {/* Vista de usuario para admins */}
-      {isAdmin && (
-        <div className="mt-auto pt-4 border-t border-gray-200">
-          <Link
-            to={ROUTES.DASHBOARD}
-            className="flex items-center px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors mb-2"
-          >
-            <span className="mr-2">👤</span>
-            Vista de Usuario
-          </Link>
-        </div>
-      )}
+      
 
       {/* Botón de cerrar sesión */}
       <div className={`${isAdmin ? '' : 'mt-auto'} pt-4 border-t border-gray-200`}>
