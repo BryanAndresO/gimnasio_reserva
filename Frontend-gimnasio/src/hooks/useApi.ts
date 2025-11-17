@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios, { type AxiosError } from '../services/core/axiosConfig';
-import { API_BASE_URL } from '../utils/constants';
+import axios, { AxiosError } from 'axios';
 
 interface ApiState<T> {
   data: T | null;
