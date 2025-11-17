@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from '../services/core/axiosConfig';
-import { AxiosError } from 'axios';
+import type { AxiosError } from 'axios';
 
 interface ApiState<T> {
   data: T | null;
@@ -79,9 +79,12 @@ export const useApi = <T = unknown>(
     if (skip) return;
 
     const isCancelled = { value: false };
-    fetchData(isCancelled);
+    // Avoid calling a function that synchronously calls setState inside the effect body
+    // to prevent cascading renders; schedule it on the next tick.
+    const t = setTimeout(() => fetchData(isCancelled), 0);
 
     return () => {
+      clearTimeout(t);
       isCancelled.value = true;
     };
   }, [skip, fetchData]);

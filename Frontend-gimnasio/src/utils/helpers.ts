@@ -52,7 +52,7 @@ export const removeFromStorage = (key: string): void => {
 /**
  * Debounce function
  */
-export const debounce = <F extends (...args: any[]) => any>(
+export const debounce = <F extends (...args: unknown[]) => unknown>(
   func: F,
   wait: number
 ): ((...args: Parameters<F>) => void) => {
@@ -67,7 +67,7 @@ export const debounce = <F extends (...args: any[]) => any>(
 /**
  * Throttle function
  */
-export const throttle = <F extends (...args: any[]) => any>(
+export const throttle = <F extends (...args: unknown[]) => unknown>(
   func: F,
   limit: number
 ): ((...args: Parameters<F>) => void) => {

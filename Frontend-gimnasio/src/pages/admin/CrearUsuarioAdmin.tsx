@@ -99,9 +99,21 @@ export const CrearUsuarioAdmin: React.FC = () => {
 
       toast.success(`Usuario ${formData.rol} creado exitosamente`);
       navigate(ROUTES.DASHBOARD);
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || error.message || 'Error al crear el usuario';
-      toast.error(errorMessage);
+    } catch (error: unknown) {
+      const getErrorMessage = (err: unknown): string => {
+        if (!err) return 'Error al crear el usuario';
+        if (typeof err === 'string') return err;
+        if (err instanceof Error) return err.message;
+        // Try to read structured axios-like error
+        try {
+          const structured = err as { response?: { data?: { message?: string } } };
+          return structured.response?.data?.message || 'Error al crear el usuario';
+        } catch {
+          return 'Error al crear el usuario';
+        }
+      };
+
+      toast.error(getErrorMessage(error));
     } finally {
       setLoading(false);
     }

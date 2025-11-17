@@ -119,5 +119,7 @@ export const NuevaReserva: React.FC = () => {
         isLoading={reservando}
       />
     </>
-  );
+    );
+  };
+
 

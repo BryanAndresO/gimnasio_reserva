@@ -74,7 +74,7 @@ export const GestionUsuarios: React.FC = () => {
     try {
       if (editingUser) {
         // Actualizar usuario
-        const updateData: any = {
+        const updateData: Record<string, unknown> = {
           nombre: formData.nombre,
           rol: formData.rol,
           activo: formData.activo,
@@ -165,7 +165,7 @@ export const GestionUsuarios: React.FC = () => {
     {
       key: 'acciones',
       header: 'Acciones',
-      render: (_: any, row: Usuario) => (
+      render: (_value: unknown, row: Usuario) => (
         <div className="flex gap-2">
           <Button
             variant="secondary"

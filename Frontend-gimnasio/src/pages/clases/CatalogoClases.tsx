@@ -12,7 +12,6 @@ import { reservaService } from '../../services/core/reservaService';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { STORAGE_KEYS } from '../../utils/constants';
 import { toast } from 'react-toastify';
-import type { TypeOptions } from 'react-toastify';
 import { AxiosError } from 'axios';
 
 interface User {
