@@ -37,7 +37,7 @@ export const Sidebar: React.FC = () => {
   const isAdmin = userData?.rol === USER_ROLES.ADMIN || userData?.rol === 'ADMIN';
 
   const userMenuItems = [
-    { path: ROUTES.DASHBOARD, label: 'Dashboard', icon: '📊' },
+    { path: ROUTES.DASHBOARD, label: 'Inicio', icon: '📊' },
     { path: ROUTES.CLASES, label: 'Clases', icon: '🏋️' },
     { path: ROUTES.RESERVAS, label: 'Mis Reservas', icon: '📅' },
     { path: ROUTES.PROFILE, label: 'Perfil', icon: '👤' },
