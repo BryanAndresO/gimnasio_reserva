@@ -3,6 +3,7 @@ import { Card } from '../../components/common/Card';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { Button } from '../../components/common/Button';
 import { Table } from '../../components/common/Table';
+import type { Column } from '../../components/common/Table';
 import { Modal } from '../../components/common/Modal';
 import { Input } from '../../components/common/Input';
 import { useApi, useApiMutation } from '../../hooks/useApi';
@@ -109,7 +110,7 @@ export const GestionEntrenadores: React.FC = () => {
     }
   };
 
-  const columns = [
+  const columns: Column<Entrenador>[] = [
     { key: 'idEntrenador', header: 'ID', render: (value: unknown) => `#${String(value)}` },
     { key: 'nombre', header: 'Nombre' },
     { key: 'especialidad', header: 'Especialidad' },
@@ -118,11 +119,11 @@ export const GestionEntrenadores: React.FC = () => {
     {
       key: 'activo',
       header: 'Estado',
-      render: (value: boolean) => (
+      render: (value: unknown) => (
         <span className={`px-2 py-1 rounded text-xs font-semibold ${
-          value ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-        }`}>
-          {value ? 'Activo' : 'Inactivo'}
+          (value as boolean) ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+        }`}> 
+          {(value as boolean) ? 'Activo' : 'Inactivo'}
         </span>
       ),
     },
@@ -160,7 +161,7 @@ export const GestionEntrenadores: React.FC = () => {
         </div>
       ) : (
         <Card>
-          <Table data={entrenadores as unknown as Record<string, unknown>[]} columns={columns as unknown as any[]} />
+          <Table<Entrenador> data={entrenadores} columns={columns} />
         </Card>
       )}
 

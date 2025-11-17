@@ -8,6 +8,7 @@ export interface ClaseAdminDTO {
   horario: string;
   cupo: number;
   cuposDisponibles?: number;
+  reservasConfirmadas?: number;
   duracionMinutos: number;
   activo: boolean;
   idEntrenador: number;

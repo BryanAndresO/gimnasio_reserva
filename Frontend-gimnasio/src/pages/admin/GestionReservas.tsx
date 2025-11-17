@@ -3,6 +3,7 @@ import { Card } from '../../components/common/Card';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { Button } from '../../components/common/Button';
 import { Table } from '../../components/common/Table';
+import type { Column } from '../../components/common/Table';
 import { Input } from '../../components/common/Input';
 import { useApi, useApiMutation } from '../../hooks/useApi';
 
@@ -48,15 +49,15 @@ export const GestionReservas: React.FC = () => {
     return matchEstado && matchBusqueda;
   });
 
-  const columns = [
-    { key: 'idReserva', header: 'ID', render: (value: number) => `#${value}` },
+  const columns: Column<Reserva>[] = [
+    { key: 'idReserva', header: 'ID', render: (value: unknown) => `#${String(value)}` },
     { key: 'nombreUsuario', header: 'Usuario' },
     { key: 'correoUsuario', header: 'Correo' },
     { key: 'nombreClase', header: 'Clase' },
     {
       key: 'horarioClase',
       header: 'Horario',
-      render: (value: string) => new Date(value).toLocaleString('es-ES', {
+      render: (value: unknown) => new Date(String(value)).toLocaleString('es-ES', {
         dateStyle: 'short',
         timeStyle: 'short'
       })
@@ -64,7 +65,7 @@ export const GestionReservas: React.FC = () => {
     {
       key: 'estado',
       header: 'Estado',
-      render: (value: string) => {
+      render: (value: unknown) => {
         const colors: Record<string, string> = {
           'CONFIRMADA': 'bg-green-100 text-green-800',
           'CANCELADA': 'bg-red-100 text-red-800',
@@ -72,8 +73,8 @@ export const GestionReservas: React.FC = () => {
           'COMPLETADA': 'bg-blue-100 text-blue-800',
         };
         return (
-          <span className={`px-2 py-1 rounded text-xs font-semibold ${colors[value] || 'bg-gray-100 text-gray-800'}`}>
-            {value}
+          <span className={`px-2 py-1 rounded text-xs font-semibold ${colors[String(value)] || 'bg-gray-100 text-gray-800'}`}>
+            {String(value)}
           </span>
         );
       },
@@ -81,7 +82,7 @@ export const GestionReservas: React.FC = () => {
     {
       key: 'fechaReserva',
       header: 'Fecha Reserva',
-      render: (value: string) => new Date(value).toLocaleDateString('es-ES')
+      render: (value: unknown) => new Date(String(value)).toLocaleDateString('es-ES')
     },
     {
       key: 'acciones',
@@ -171,7 +172,7 @@ export const GestionReservas: React.FC = () => {
             </p>
           </div>
         ) : (
-          <Table data={reservasFiltradas as unknown as Record<string, unknown>[]} columns={columns as unknown as any[]} />
+          <Table<Reserva> data={reservasFiltradas} columns={columns} />
         )}
       </Card>
 

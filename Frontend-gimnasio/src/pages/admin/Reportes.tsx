@@ -13,7 +13,7 @@ interface Reporte {
 export const Reportes: React.FC = () => {
   const { data: reporteData, loading } = useApi<Reporte>('/admin/reportes/general');
 
-  const reporte = reporteData || {};
+  const reporte: Partial<Reporte> = reporteData || {};
 
   return (
     <div>

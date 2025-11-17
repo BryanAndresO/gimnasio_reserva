@@ -48,10 +48,11 @@ export const GestionarClases: React.FC = () => {
       setLoading(true);
       const [clasesData, entrenadoresData] = await Promise.all([
         adminClaseService.listarTodas(),
-        adminEntrenadorService.listarActivos(),
+        adminEntrenadorService.listarEntrenadores(),
       ]);
       setClases(clasesData);
-      setEntrenadores(entrenadoresData);
+      // Filtramos entrenadores activos en el cliente si el servicio no expone listarActivos
+      setEntrenadores(entrenadoresData.filter(e => e.activo));
     } catch (error) {
       console.error('Error al cargar los datos:', error);
       toast.error('Error al cargar los datos');

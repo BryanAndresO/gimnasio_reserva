@@ -3,6 +3,7 @@ import { Card } from '../../components/common/Card';
 import { Breadcrumb } from '../../components/layout/Breadcrumb';
 import { Button } from '../../components/common/Button';
 import { Table } from '../../components/common/Table';
+import type { Column } from '../../components/common/Table';
 import { Modal } from '../../components/common/Modal';
 import { Input } from '../../components/common/Input';
 import { useApi, useApiMutation } from '../../hooks/useApi';
@@ -133,7 +134,7 @@ export const GestionUsuarios: React.FC = () => {
     }
   };
 
-  const columns = [
+  const columns: Column<Usuario>[] = [
     { key: 'idUsuario', header: 'ID', render: (value: unknown) => `#${String(value)}` },
     { key: 'nombre', header: 'Nombre' },
     { key: 'correo', header: 'Correo' },
@@ -151,14 +152,14 @@ export const GestionUsuarios: React.FC = () => {
     {
       key: 'activo',
       header: 'Estado',
-      render: (value: boolean, row: Usuario) => (
+      render: (value: unknown, row: Usuario) => (
         <button
           onClick={() => handleToggleActive(row)}
           className={`px-2 py-1 rounded text-xs font-semibold ${
-            value ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+            (value as boolean) ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
           }`}
         >
-          {value ? 'Activo' : 'Inactivo'}
+          {(value as boolean) ? 'Activo' : 'Inactivo'}
         </button>
       ),
     },
@@ -223,7 +224,7 @@ export const GestionUsuarios: React.FC = () => {
         </Card>
       ) : (
         <Card>
-          <Table data={usuarios as unknown as Record<string, unknown>[]} columns={columns as unknown as any[]} />
+          <Table<Usuario> data={usuarios} columns={columns} />
         </Card>
       )}
 

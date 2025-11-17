@@ -2,7 +2,11 @@ import { useLocalStorage } from './useLocalStorage';
 import { STORAGE_KEYS, USER_ROLES } from '../utils/constants';
 
 interface User {
-  rol: string;
+  rol?: string;
+  nombre?: string;
+  correo?: string;
+  email?: string;
+  idUsuario?: number;
 }
 
 export const usePermissions = () => {

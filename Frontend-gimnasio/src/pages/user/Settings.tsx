@@ -14,7 +14,8 @@ export const Settings: React.FC = () => {
   useEffect(() => {
     // Cargar configuración guardada
     const savedSettings = usuarioService.obtenerConfiguracion();
-    setSettings(savedSettings);
+    // Merge with defaults to avoid undefined fields
+    setSettings(prev => ({ ...prev, ...savedSettings }));
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

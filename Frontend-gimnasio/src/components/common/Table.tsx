@@ -1,7 +1,7 @@
 import React from 'react';
 import { classNames } from '../../utils/helpers';
 
-interface Column<T> {
+export interface Column<T> {
   key: string;
   header: string;
   render?: (value: unknown, row: T) => React.ReactNode;
@@ -15,14 +15,14 @@ interface TableProps<T> {
   className?: string;
 }
 
-export function Table<T extends Record<string, unknown>>({
+export function Table<T extends object>({
   data,
   columns,
   onRowClick,
   className,
 }: TableProps<T>) {
   const renderCell = (row: T, column: Column<T>) => {
-    const value = row[column.key];
+    const value = (row as any)[column.key];
 
     if (column.render) {
       return column.render(value, row);
