@@ -12,7 +12,7 @@ public class Reserva {
     @Column(name = "id_reserva")
     private Long idReserva;
 
-    @Column(nullable = false)
+    @Column(name = "fecha_reserva", nullable = true)
     private LocalDateTime fechaReserva;
 
     @Column(nullable = false, length = 20)
