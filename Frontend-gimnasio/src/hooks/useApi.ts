@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from '../services/core/axiosConfig';
 import { AxiosError } from 'axios';
 
@@ -8,15 +8,19 @@ interface ApiState<T> {
   error: string | null;
 }
 
+interface ErrorResponse {
+  message?: string;
+}
+
 interface RequestConfig {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   headers?: Record<string, string>;
-  params?: Record<string, any>;
-  data?: any;
+  params?: Record<string, unknown>;
+  data?: unknown;
   skip?: boolean;
 }
 
-export const useApi = <T = any>(
+export const useApi = <T = unknown>(
   url: string,
   options: RequestConfig = {}
 ) => {
@@ -26,52 +30,63 @@ export const useApi = <T = any>(
     error: null,
   });
 
-  const { skip = false, ...axiosOptions } = options;
-
-  const fetchData = useCallback(async () => {
-    if (skip) return;
-
-    setState(prev => ({ ...prev, loading: true, error: null }));
-
-    try {
-      // El token se agregará automáticamente por el interceptor de axios
-      const response = await axios({
-        ...axiosOptions,
-        url: url.startsWith('/') ? url : `/${url}`,
-        method: axiosOptions.method || 'GET',
-        headers: {
-          ...axiosOptions.headers,
-        },
-        withCredentials: true, // Asegurar que withCredentials esté configurado
-      });
-
-      console.log('API Response:', response.data);
-      console.log('Response type:', typeof response.data);
-      console.log('Is array?', Array.isArray(response.data));
-
-      setState({
-        data: response.data,
-        loading: false,
-        error: null,
-      });
-    } catch (error) {
-      const axiosError = error as AxiosError<any>;
-      const errorMessage = 
-        (axiosError.response?.data as any)?.message || 
-        axiosError.message || 
-        'Error desconocido';
-      
-      setState({
-        data: null,
-        loading: false,
-        error: errorMessage,
-      });
-    }
-  }, [url, skip, JSON.stringify(axiosOptions)]);
+  const { skip = false, method, headers, params, data } = options;
 
   useEffect(() => {
+    if (skip) return;
+
+    let cancelled = false;
+
+    const fetchData = async () => {
+      if (cancelled) return;
+
+      setState(prev => ({ ...prev, loading: true, error: null }));
+
+      try {
+        // El token se agregará automáticamente por el interceptor de axios
+        const response = await axios({
+          method: method || 'GET',
+          url: url.startsWith('/') ? url : `/${url}`,
+          headers,
+          params,
+          data,
+          withCredentials: true, // Asegurar que withCredentials esté configurado
+        });
+
+        if (cancelled) return;
+
+        console.log('API Response:', response.data);
+        console.log('Response type:', typeof response.data);
+        console.log('Is array?', Array.isArray(response.data));
+
+        setState({
+          data: response.data,
+          loading: false,
+          error: null,
+        });
+      } catch (error) {
+        if (cancelled) return;
+
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const errorMessage =
+          axiosError.response?.data?.message ||
+          axiosError.message ||
+          'Error desconocido';
+
+        setState({
+          data: null,
+          loading: false,
+          error: errorMessage,
+        });
+      }
+    };
+
     fetchData();
-  }, [fetchData]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [url, skip, method, headers, params, data]);
 
   const refetch = useCallback(() => {
     fetchData();
@@ -80,7 +95,7 @@ export const useApi = <T = any>(
   return { ...state, refetch };
 };
 
-export const useApiMutation = <T = any, D = any>() => {
+export const useApiMutation = <T = unknown, D = unknown>() => {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
     loading: false,
@@ -112,12 +127,12 @@ export const useApiMutation = <T = any, D = any>() => {
       });
       return response.data;
     } catch (error) {
-      const axiosError = error as AxiosError<any>;
-      const errorMessage = 
-        (axiosError.response?.data as any)?.message || 
-        axiosError.message || 
+      const axiosError = error as AxiosError<ErrorResponse>;
+      const errorMessage =
+        axiosError.response?.data?.message ||
+        axiosError.message ||
         'Error desconocido';
-      
+
       setState({
         data: null,
         loading: false,

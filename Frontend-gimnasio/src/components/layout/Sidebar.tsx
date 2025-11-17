@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES, STORAGE_KEYS, USER_ROLES } from '../../utils/constants';
 import { classNames } from '../../utils/helpers';
@@ -15,18 +15,22 @@ interface UserData {
 export const Sidebar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState<UserData | null>(null);
 
-  useEffect(() => {
+  // Get user data from localStorage
+  const getUserData = (): UserData | null => {
     const userDataStr = localStorage.getItem(STORAGE_KEYS.USER);
     if (userDataStr) {
       try {
-        setUserData(JSON.parse(userDataStr));
+        return JSON.parse(userDataStr);
       } catch (error) {
         console.error('Error parsing user data:', error);
+        return null;
       }
     }
-  }, []);
+    return null;
+  };
+
+  const userData = getUserData();
 
   const handleLogout = () => {
     authService.logout();

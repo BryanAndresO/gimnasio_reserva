@@ -4,7 +4,7 @@ import { classNames } from '../../utils/helpers';
 interface Column<T> {
   key: string;
   header: string;
-  render?: (value: any, row: T) => React.ReactNode;
+  render?: (value: unknown, row: T) => React.ReactNode;
   className?: string;
 }
 
@@ -15,7 +15,7 @@ interface TableProps<T> {
   className?: string;
 }
 
-export function Table<T extends Record<string, any>>({
+export function Table<T extends Record<string, unknown>>({
   data,
   columns,
   onRowClick,

@@ -6,8 +6,14 @@ import { STORAGE_KEYS } from '../../utils/constants';
 import { authService } from '../../services/core/authService';
 import { toast } from 'react-toastify';
 
+interface User {
+  nombre?: string;
+  email?: string;
+  rol?: string;
+}
+
 export const Header: React.FC = () => {
-  const [user] = useLocalStorage<any>(STORAGE_KEYS.USER, null);
+  const [user] = useLocalStorage<User | null>(STORAGE_KEYS.USER, null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
