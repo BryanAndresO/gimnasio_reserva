@@ -56,7 +56,7 @@ export const debounce = <F extends (...args: unknown[]) => unknown>(
   func: F,
   wait: number
 ): ((...args: Parameters<F>) => void) => {
-  let timeout: NodeJS.Timeout | null = null;
+  let timeout: ReturnType<typeof setTimeout> | null = null;
   
   return (...args: Parameters<F>) => {
     if (timeout) clearTimeout(timeout);

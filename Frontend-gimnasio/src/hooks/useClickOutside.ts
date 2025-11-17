@@ -1,12 +1,13 @@
-import { useEffect, useRef, RefObject } from 'react';
+import { useEffect, useRef } from 'react';
+import type { RefObject } from 'react';
 
 /**
  * Hook para detectar clicks fuera de un elemento
  */
 export const useClickOutside = <T extends HTMLElement = HTMLElement>(
   handler: () => void
-): RefObject<T> => {
-  const ref = useRef<T>(null);
+): RefObject<T | null> => {
+  const ref = useRef<T | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {

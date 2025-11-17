@@ -26,7 +26,7 @@ export const useDebouncedCallback = <A extends unknown[], R>(
   callback: (...args: A) => R,
   delay: number = 500
 ): ((...args: A) => void) => {
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     return () => {
@@ -38,14 +38,14 @@ export const useDebouncedCallback = <A extends unknown[], R>(
 
   const debouncedCallback = (...args: A) => {
     if (timeoutId) {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId as ReturnType<typeof setTimeout>);
     }
 
     const newTimeoutId = setTimeout(() => {
       callback(...args);
     }, delay);
 
-    setTimeoutId(newTimeoutId);
+    setTimeoutId(newTimeoutId as ReturnType<typeof setTimeout>);
   };
 
   return debouncedCallback;

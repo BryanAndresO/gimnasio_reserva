@@ -134,17 +134,17 @@ export const GestionUsuarios: React.FC = () => {
   };
 
   const columns = [
-    { key: 'idUsuario', header: 'ID', render: (value: number) => `#${value}` },
+    { key: 'idUsuario', header: 'ID', render: (value: unknown) => `#${String(value)}` },
     { key: 'nombre', header: 'Nombre' },
     { key: 'correo', header: 'Correo' },
     {
       key: 'rol',
       header: 'Rol',
-      render: (value: string) => (
+      render: (value: unknown) => (
         <span className={`px-2 py-1 rounded text-xs font-semibold ${
-          value === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
+          (value as string) === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
         }`}>
-          {value}
+          {String(value)}
         </span>
       ),
     },
@@ -191,7 +191,7 @@ export const GestionUsuarios: React.FC = () => {
     <div>
       <Breadcrumb
         items={[
-          { label: 'Admin', href: '/admin' },
+          { label: 'Admin', path: '/admin' },
           { label: 'Gestión de Usuarios' },
         ]}
       />
@@ -223,7 +223,7 @@ export const GestionUsuarios: React.FC = () => {
         </Card>
       ) : (
         <Card>
-          <Table data={usuarios} columns={columns} />
+          <Table data={usuarios as unknown as Record<string, unknown>[]} columns={columns as unknown as any[]} />
         </Card>
       )}
 

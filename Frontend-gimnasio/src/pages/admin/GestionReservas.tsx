@@ -125,7 +125,7 @@ export const GestionReservas: React.FC = () => {
 
   return (
     <div>
-      <Breadcrumb items={[{ label: 'Admin', href: '/admin' }, { label: 'Gestión de Reservas' }]} />
+      <Breadcrumb items={[{ label: 'Admin', path: '/admin' }, { label: 'Gestión de Reservas' }]} />
 
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Gestión de Reservas</h1>
@@ -171,7 +171,7 @@ export const GestionReservas: React.FC = () => {
             </p>
           </div>
         ) : (
-          <Table data={reservasFiltradas} columns={columns} />
+          <Table data={reservasFiltradas as unknown as Record<string, unknown>[]} columns={columns as unknown as any[]} />
         )}
       </Card>
 

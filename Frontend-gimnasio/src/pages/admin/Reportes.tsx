@@ -17,7 +17,7 @@ export const Reportes: React.FC = () => {
 
   return (
     <div>
-      <Breadcrumb items={[{ label: 'Admin', href: '/admin' }, { label: 'Reportes' }]} />
+      <Breadcrumb items={[{ label: 'Admin', path: '/admin' }, { label: 'Reportes' }]} />
 
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Reportes y Estadísticas</h1>

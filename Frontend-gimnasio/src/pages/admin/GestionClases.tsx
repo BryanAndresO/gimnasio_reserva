@@ -125,12 +125,12 @@ export const GestionClases: React.FC = () => {
   };
 
   const columns = [
-    { key: 'idClase', header: 'ID', render: (value: number) => `#${value}` },
+    { key: 'idClase', header: 'ID', render: (value: unknown) => `#${String(value)}` },
     { key: 'nombre', header: 'Nombre' },
-    { key: 'descripcion', header: 'Descripción', render: (value: string) => value || 'N/A' },
-    { key: 'duracionMinutos', header: 'Duración', render: (value: number) => `${value} min` },
-    { key: 'cupo', header: 'Capacidad', render: (value: number) => `${value} personas` },
-    { key: 'nombreEntrenador', header: 'Entrenador', render: (value: string) => value || 'Sin asignar' },
+    { key: 'descripcion', header: 'Descripción', render: (value: unknown) => String(value) || 'N/A' },
+    { key: 'duracionMinutos', header: 'Duración', render: (value: unknown) => `${String(value)} min` },
+    { key: 'cupo', header: 'Capacidad', render: (value: unknown) => `${String(value)} personas` },
+    { key: 'nombreEntrenador', header: 'Entrenador', render: (value: unknown) => String(value) || 'Sin asignar' },
     {
       key: 'activo',
       header: 'Estado',
@@ -145,7 +145,7 @@ export const GestionClases: React.FC = () => {
     {
       key: 'acciones',
       header: 'Acciones',
-      render: (_: unknown, row: Clase) => (
+      render: (_value: unknown, row: Clase) => (
         <div className="flex gap-2">
           <Button variant="secondary" size="sm" onClick={() => handleOpenModal(row)}>
             Editar
@@ -176,7 +176,7 @@ export const GestionClases: React.FC = () => {
         </div>
       ) : (
         <Card>
-          <Table data={clases} columns={columns} />
+          <Table data={clases as unknown as Record<string, unknown>[]} columns={columns as unknown as any[]} />
         </Card>
       )}
 

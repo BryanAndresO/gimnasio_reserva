@@ -110,7 +110,7 @@ export const GestionEntrenadores: React.FC = () => {
   };
 
   const columns = [
-    { key: 'idEntrenador', header: 'ID', render: (value: number) => `#${value}` },
+    { key: 'idEntrenador', header: 'ID', render: (value: unknown) => `#${String(value)}` },
     { key: 'nombre', header: 'Nombre' },
     { key: 'especialidad', header: 'Especialidad' },
     { key: 'telefono', header: 'Teléfono' },
@@ -129,7 +129,7 @@ export const GestionEntrenadores: React.FC = () => {
     {
       key: 'acciones',
       header: 'Acciones',
-      render: (_: unknown, row: Entrenador) => (
+      render: (_value: unknown, row: Entrenador) => (
         <div className="flex gap-2">
           <Button variant="secondary" size="sm" onClick={() => handleOpenModal(row)}>
             Editar
@@ -144,7 +144,7 @@ export const GestionEntrenadores: React.FC = () => {
 
   return (
     <div>
-      <Breadcrumb items={[{ label: 'Admin', href: '/admin' }, { label: 'Gestión de Entrenadores' }]} />
+      <Breadcrumb items={[{ label: 'Admin', path: '/admin' }, { label: 'Gestión de Entrenadores' }]} />
 
       <div className="flex justify-between items-center mb-6">
         <div>
@@ -160,7 +160,7 @@ export const GestionEntrenadores: React.FC = () => {
         </div>
       ) : (
         <Card>
-          <Table data={entrenadores} columns={columns} />
+          <Table data={entrenadores as unknown as Record<string, unknown>[]} columns={columns as unknown as any[]} />
         </Card>
       )}
 
