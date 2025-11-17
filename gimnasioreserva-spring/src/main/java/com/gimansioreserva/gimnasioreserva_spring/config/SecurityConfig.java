@@ -2,6 +2,7 @@ package com.gimansioreserva.gimnasioreserva_spring.config;
 
 import com.gimansioreserva.gimnasioreserva_spring.security.jwt.JwtAuthenticationEntryPoint;
 import com.gimansioreserva.gimnasioreserva_spring.security.jwt.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +16,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -25,6 +27,9 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Value("${cors.allowed.origins:http://localhost:5173,http://127.0.0.1:5173}")
+    private String allowedOrigins;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                           JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
@@ -41,13 +46,9 @@ public class SecurityConfig {
 
         config.setAllowCredentials(true);
 
-        // Usar setAllowedOriginPatterns en lugar de setAllowedOrigins cuando allowCredentials es true
-        config.setAllowedOriginPatterns(List.of(
-                "http://localhost:5173",
-                "http://127.0.0.1:5173",
-                "http://localhost:3000",
-                "http://127.0.0.1:3000"
-        ));
+        // Parse allowed origins from application.properties
+        List<String> originsList = new ArrayList<>(Arrays.asList(allowedOrigins.split(",")));
+        config.setAllowedOriginPatterns(originsList);
 
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("*"));

@@ -1,0 +1,85 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  # ========================================
+  # BACKEND - Build and Test with H2
+  # ========================================
+  backend-build:
+    name: Backend Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Grant execute permission for Gradle
+        working-directory: ./gimnasioreserva-spring
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        working-directory: ./gimnasioreserva-spring
+        run: ./gradlew clean build
+
+      - name: Run Tests
+        working-directory: ./gimnasioreserva-spring
+        run: ./gradlew test
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: gimnasioreserva-spring/build/reports/tests/test/
+
+  # ========================================
+  # FRONTEND - Build and Lint
+  # ========================================
+  frontend-build:
+    name: Frontend Build and Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./Frontend-gimnasio/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./Frontend-gimnasio
+        run: npm ci
+
+      - name: Run Linter
+        working-directory: ./Frontend-gimnasio
+        run: npm run lint
+
+      - name: Build Frontend
+        working-directory: ./Frontend-gimnasio
+        run: npm run build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: Frontend-gimnasio/dist/
