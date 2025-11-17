@@ -22,7 +22,8 @@ export function Table<T extends object>({
   className,
 }: TableProps<T>) {
   const renderCell = (row: T, column: Column<T>) => {
-    const value = (row as any)[column.key];
+    const key = column.key as keyof T;
+    const value: unknown = row[key] as unknown;
 
     if (column.render) {
       return column.render(value, row);
